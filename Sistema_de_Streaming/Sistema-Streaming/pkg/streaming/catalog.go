@@ -1,4 +1,4 @@
-package streaming
+package catalog
 
 import (
 	"encoding/json"
@@ -14,8 +14,8 @@ type Content struct {
 
 // Catálogo ficticio
 var catalog = []Content{
-	{ID: "1", Title: "The Great Adventure", Type: "movie"},
-	{ID: "2", Title: "Mystery of the Night", Type: "series"},
+	{ID: "1", Title: "Minions", Type: "movie"},
+	{ID: "2", Title: "Nuestros Oceanos", Type: "series"},
 }
 
 // CatalogHandler maneja las solicitudes del catálogo
