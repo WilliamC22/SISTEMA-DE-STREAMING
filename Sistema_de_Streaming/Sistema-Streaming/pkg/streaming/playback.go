@@ -1,9 +1,16 @@
-package streaming
+package playback
 
 import (
 	"fmt"
 	"net/http"
 )
+
+// PlaybackSession representa una sesión de reproducción
+type PlaybackSession struct {
+	UserID    string
+	ContentID string
+	Timestamp int64
+}
 
 // PlaybackHandler maneja la reproducción de contenido
 func PlaybackHandler(w http.ResponseWriter, r *http.Request) {
