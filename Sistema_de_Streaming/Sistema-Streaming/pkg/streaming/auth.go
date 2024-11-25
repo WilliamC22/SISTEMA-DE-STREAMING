@@ -1,32 +1,26 @@
-package streaming
+package main
 
 import (
-	"encoding/json"
+	"Sistema-Streaming/pkg/auth"
+	"Sistema-Streaming/pkg/catalog"
+	"Sistema-Streaming/pkg/playback"
+	"Sistema-Streaming/pkg/recommendation"
+	"log"
 	"net/http"
 )
 
-// User representa un usuario
-type User struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
-}
+func main() {
+	// Inicializa el servidor del sistema de streaming
+	log.Println("Starting Sistema-Streaming server on port 8080...")
 
-// AuthHandler maneja el inicio de sesión
-func AuthHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method == http.MethodPost {
-		var user User
-		if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-			http.Error(w, "Invalid request", http.StatusBadRequest)
-			return
-		}
-		// Simular validación de usuario
-		if user.Username == "admin" && user.Password == "password" {
-			w.WriteHeader(http.StatusOK)
-			w.Write([]byte("Login successful"))
-		} else {
-			http.Error(w, "Unauthorized", http.StatusUnauthorized)
-		}
-		return
+	// Rutas del sistema
+	http.HandleFunc("/auth", auth.AuthHandler)
+	http.HandleFunc("/catalog", catalog.CatalogHandler)
+	http.HandleFunc("/playback", playback.PlaybackHandler)
+	http.HandleFunc("/recommendation", recommendation.RecommendationHandler)
+
+	// Ejecuta el servidor en el puerto 8080
+	if err := http.ListenAndServe(":8080", nil); err != nil {
+		log.Fatalf("Server failed to start: %v", err)
 	}
-	http.Error(w, "Invalid method", http.StatusMethodNotAllowed)
 }
