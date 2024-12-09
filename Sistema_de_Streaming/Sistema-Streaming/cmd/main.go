@@ -1,21 +1,27 @@
 package main
 
 import (
-	"Sistema-Streaming/pkg/streaming"
 	"log"
 	"net/http"
+
+	"Sistema-Streaming/pkg/auth"
+	"Sistema-Streaming/pkg/catalog"
+	"Sistema-Streaming/pkg/playback"
+	"Sistema-Streaming/pkg/recommendation"
 )
 
 func main() {
-	// Inicializa el servidor del sistema de streaming
-	log.Println("Starting streaming server on port 8080...")
-	http.HandleFunc("/catalog", streaming.CatalogHandler)
-	http.HandleFunc("/auth", streaming.AuthHandler)
-	http.HandleFunc("/playback", streaming.PlaybackHandler)
-	http.HandleFunc("/recommendation", streaming.RecommendationHandler)
+	log.Println("Starting Sistema-Streaming server on port 8080...")
 
-	// Ejecuta el servidor en el puerto 8080
+	// Definición de rutas
+	http.HandleFunc("/auth", auth.AuthHandler)                               // Ruta para autenticación
+	http.HandleFunc("/catalog", catalog.CatalogHandler)                      // Ruta para listar catálogo
+	http.HandleFunc("/playback", playback.PlaybackHandler)                   // Ruta para reproducción
+	http.HandleFunc("/recommendation", recommendation.RecommendationHandler) // Ruta para recomendaciones
+
+	// Inicia el servidor HTTP en el puerto 8080
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatalf("Server failed to start: %v", err)
 	}
 }
+
